@@ -1,0 +1,12 @@
+com/ingredients_service/controller/IngredientController.class
+com/ingredients_service/repository/IngredientRepository.class
+com/ingredients_service/config/GlobalExceptionHandler.class
+com/ingredients_service/entity/IngredientEntity.class
+com/ingredients_service/enums/Category.class
+com/ingredients_service/api/IngredientApi.class
+com/ingredients_service/dto/IngredientDTO.class
+com/ingredients_service/service/IngredientService.class
+com/ingredients_service/config/CorsFilter.class
+com/ingredients_service/IngredientsServiceApplication.class
+com/ingredients_service/dto/ErrorDto.class
+com/ingredients_service/config/SecurityConfig.class

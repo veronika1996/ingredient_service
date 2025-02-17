@@ -1,0 +1,6 @@
+com/ingredients_service/cucumber/glue/SpringIntegrationTest.class
+com/ingredients_service/cucumber/glue/IngredientStepDefs.class
+com/ingredients_service/cucumber/glue/IngredientStepDefs$1.class
+com/ingredients_service/cucumber/glue/IngredientStepDefs$2.class
+com/ingredients_service/cucumber/CucumberIntegrationTest.class
+com/ingredients_service/IngredientsServiceApplicationTests.class

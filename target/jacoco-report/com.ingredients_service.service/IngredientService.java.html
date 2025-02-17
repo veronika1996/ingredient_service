@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IngredientService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Meal plan app</a> &gt; <a href="index.source.html" class="el_package">com.ingredients_service.service</a> &gt; <span class="el_source">IngredientService.java</span></div><h1>IngredientService.java</h1><pre class="source lang-java linenums">package com.ingredients_service.service;
+
+import com.ingredients_service.dto.IngredientDTO;
+import com.ingredients_service.entity.IngredientEntity;
+import com.ingredients_service.repository.IngredientRepository;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.server.ResponseStatusException;
+
+@Service
+@Validated
+public class IngredientService {
+
+    private static final String INGREDIENT_NOT_FOUND_ERROR = &quot;Ingredient not found for ingredient name: &quot;;
+    private static final String LOGIN_SUCCESSFUL = &quot;Login successful!&quot;;
+    private static final String INVALID_CREDENTIALS = &quot;Invalid credentials!&quot;;
+    private static final String INGREDIENT_NAME_ALREADY_EXIST = &quot;Ingredient name already exists: &quot;;
+
+
+    private final IngredientRepository ingredientRepository;
+
+<span class="fc" id="L27">    public IngredientService(IngredientRepository ingredientRepository) {</span>
+<span class="fc" id="L28">        this.ingredientRepository = ingredientRepository;</span>
+<span class="fc" id="L29">    }</span>
+
+    public IngredientDTO createIngredient(@Valid  IngredientDTO ingredientDTO) {
+<span class="fc" id="L32">        ingredientRepository.findByName(ingredientDTO.getName());</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        if( ingredientRepository.findByName(ingredientDTO.getName()).isPresent()) {</span>
+<span class="nc" id="L34">            throw new IllegalArgumentException(INGREDIENT_NAME_ALREADY_EXIST + ingredientDTO.getName());</span>
+        }
+
+<span class="fc" id="L37">        IngredientEntity ingredientEntity = ingredientDTO.mapToEntity();</span>
+<span class="fc" id="L38">        IngredientEntity savedEntity = ingredientRepository.save(ingredientEntity);</span>
+<span class="fc" id="L39">        return savedEntity.mapToDto();</span>
+    }
+
+    @Transactional
+    public IngredientDTO updateIngredient(String name, @Valid IngredientDTO ingredientDTO) {
+        //checking if the entity exists in the database
+<span class="fc" id="L45">        IngredientEntity ingredientEntity = findEntityByName(name);</span>
+
+<span class="fc" id="L47">        ingredientEntity = ingredientDTO.mapToEntity();</span>
+<span class="fc" id="L48">        IngredientEntity updatedEntity = ingredientRepository.save(ingredientEntity);</span>
+<span class="fc" id="L49">        return updatedEntity.mapToDto();</span>
+    }
+
+    public void deleteIngredientByName(String name) {
+<span class="fc" id="L53">        IngredientEntity ingredientEntity = findEntityByName(name);</span>
+
+<span class="fc" id="L55">        ingredientRepository.deleteByName(name);</span>
+<span class="fc" id="L56">    }</span>
+
+    public List&lt;IngredientDTO&gt; getAllIngredients() {
+<span class="fc" id="L59">        List&lt;IngredientEntity&gt; listOfIngredientsEntity = ingredientRepository.findAll();</span>
+<span class="fc" id="L60">        return listOfIngredientsEntity.stream().map(IngredientEntity::mapToDto).toList();</span>
+    }
+
+    public IngredientDTO getIngredientByName(String name) {
+<span class="fc" id="L64">        IngredientEntity ingredientEntity = findEntityByName(name);</span>
+<span class="fc" id="L65">        return ingredientEntity.mapToDto();</span>
+    }
+
+    private IngredientEntity findEntityByName(String name) {
+<span class="fc" id="L69">        return ingredientRepository.findByName(name)</span>
+<span class="fc" id="L70">                .orElseThrow(() -&gt; new UsernameNotFoundException(INGREDIENT_NOT_FOUND_ERROR + name));</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
