@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IngredientController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Meal plan app</a> &gt; <a href="index.source.html" class="el_package">com.ingredients_service.controller</a> &gt; <span class="el_source">IngredientController.java</span></div><h1>IngredientController.java</h1><pre class="source lang-java linenums">package com.ingredients_service.controller;
+
+
+import com.ingredients_service.api.IngredientApi;
+import com.ingredients_service.dto.IngredientDTO;
+import com.ingredients_service.service.IngredientService;
+import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping(&quot;/ingredients&quot;)
+public class IngredientController implements IngredientApi {
+
+    private final IngredientService ingredientService;
+
+<span class="fc" id="L18">    public IngredientController(IngredientService ingredientService) {</span>
+<span class="fc" id="L19">        this.ingredientService = ingredientService;</span>
+<span class="fc" id="L20">    }</span>
+
+    @PostMapping
+    public ResponseEntity&lt;IngredientDTO&gt; createIngredient(@RequestBody IngredientDTO ingredientDTO) {
+<span class="fc" id="L24">        IngredientDTO response = ingredientService.createIngredient(ingredientDTO);</span>
+<span class="fc" id="L25">        return ResponseEntity</span>
+<span class="fc" id="L26">                .status(HttpStatus.CREATED)</span>
+<span class="fc" id="L27">                .body(response);</span>
+    }
+
+    @PutMapping(&quot;/{name}&quot;)
+    public ResponseEntity&lt;IngredientDTO&gt; updateIngredient(@PathVariable String name, @RequestBody IngredientDTO ingredientDTO) {
+<span class="fc" id="L32">        IngredientDTO response = ingredientService.updateIngredient(name, ingredientDTO);</span>
+<span class="fc" id="L33">        return ResponseEntity</span>
+<span class="fc" id="L34">                .status(HttpStatus.OK)</span>
+<span class="fc" id="L35">                .body(response);</span>
+    }
+
+
+    @DeleteMapping(&quot;/{name}&quot;)
+    public ResponseEntity&lt;Void&gt; deleteIngredient(@PathVariable String name) {
+<span class="fc" id="L41">        ingredientService.deleteIngredientByName(name);</span>
+<span class="fc" id="L42">        return ResponseEntity.noContent().build();</span>
+    }
+
+    @GetMapping
+    public ResponseEntity&lt;List&lt;IngredientDTO&gt;&gt; getAllIngredients() {
+<span class="fc" id="L47">        List&lt;IngredientDTO&gt; response = ingredientService.getAllIngredients();</span>
+<span class="fc" id="L48">        return ResponseEntity</span>
+<span class="fc" id="L49">                .status(HttpStatus.OK)</span>
+<span class="fc" id="L50">                .body(response);</span>
+    }
+
+    @GetMapping(&quot;/{name}&quot;)
+    public ResponseEntity&lt;IngredientDTO&gt; getIngredientByName(@PathVariable String name) {
+<span class="fc" id="L55">        IngredientDTO response = ingredientService.getIngredientByName(name);</span>
+<span class="fc" id="L56">        return ResponseEntity</span>
+<span class="fc" id="L57">                .status(HttpStatus.OK)</span>
+<span class="fc" id="L58">                .body(response);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,16 @@
+server:
+  servlet:
+    context-path: /meal_plan
+  port: 8083
+spring:
+  application:
+    name: Ingredients app
+  datasource:
+    url: jdbc:postgresql://localhost:5433/ingredient_test
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

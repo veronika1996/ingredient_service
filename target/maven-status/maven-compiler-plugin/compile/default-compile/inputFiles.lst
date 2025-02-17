@@ -1,0 +1,12 @@
+/Users/veronika/Projects/MASTER/mealplan-app/ingredients_service/src/main/java/com/ingredients_service/IngredientsServiceApplication.java
+/Users/veronika/Projects/MASTER/mealplan-app/ingredients_service/src/main/java/com/ingredients_service/api/IngredientApi.java
+/Users/veronika/Projects/MASTER/mealplan-app/ingredients_service/src/main/java/com/ingredients_service/config/CorsFilter.java
+/Users/veronika/Projects/MASTER/mealplan-app/ingredients_service/src/main/java/com/ingredients_service/config/GlobalExceptionHandler.java
+/Users/veronika/Projects/MASTER/mealplan-app/ingredients_service/src/main/java/com/ingredients_service/config/SecurityConfig.java
+/Users/veronika/Projects/MASTER/mealplan-app/ingredients_service/src/main/java/com/ingredients_service/controller/IngredientController.java
+/Users/veronika/Projects/MASTER/mealplan-app/ingredients_service/src/main/java/com/ingredients_service/dto/ErrorDto.java
+/Users/veronika/Projects/MASTER/mealplan-app/ingredients_service/src/main/java/com/ingredients_service/dto/IngredientDTO.java
+/Users/veronika/Projects/MASTER/mealplan-app/ingredients_service/src/main/java/com/ingredients_service/entity/IngredientEntity.java
+/Users/veronika/Projects/MASTER/mealplan-app/ingredients_service/src/main/java/com/ingredients_service/enums/Category.java
+/Users/veronika/Projects/MASTER/mealplan-app/ingredients_service/src/main/java/com/ingredients_service/repository/IngredientRepository.java
+/Users/veronika/Projects/MASTER/mealplan-app/ingredients_service/src/main/java/com/ingredients_service/service/IngredientService.java
