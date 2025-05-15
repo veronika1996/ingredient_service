@@ -1,7 +1,8 @@
 package com.ingredients_service.cucumber.glue;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -16,7 +17,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.sl.In;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -37,12 +37,11 @@ import org.springframework.web.client.RestTemplate;
 public class IngredientStepDefs {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
-
-  @Autowired private IngredientRepository ingredientRepository;
-
-  @Autowired private IngredientService ingredientService;
-
   private final RestTemplate restTemplate = new RestTemplate();
+  @Autowired
+  private IngredientRepository ingredientRepository;
+  @Autowired
+  private IngredientService ingredientService;
   private ResponseEntity<String> response;
   private IngredientDTO ingredientDTO;
 
@@ -145,7 +144,8 @@ public class IngredientStepDefs {
   public void theResponseShouldContainAnEmptyList() throws JsonProcessingException {
     ObjectMapper objectMapper = new ObjectMapper();
     List<IngredientDTO> ingredients =
-        objectMapper.readValue(response.getBody(), new TypeReference<List<IngredientDTO>>() {});
+        objectMapper.readValue(response.getBody(), new TypeReference<List<IngredientDTO>>() {
+        });
 
     assertTrue(ingredients == null || ingredients.isEmpty());
   }
@@ -165,7 +165,8 @@ public class IngredientStepDefs {
   public void theResponseShouldContainNumberIngredient(int size) throws JsonProcessingException {
     ObjectMapper objectMapper = new ObjectMapper();
     List<IngredientDTO> ingredients =
-        objectMapper.readValue(response.getBody(), new TypeReference<List<IngredientDTO>>() {});
+        objectMapper.readValue(response.getBody(), new TypeReference<List<IngredientDTO>>() {
+        });
 
     assertEquals(ingredients.size(), size);
   }

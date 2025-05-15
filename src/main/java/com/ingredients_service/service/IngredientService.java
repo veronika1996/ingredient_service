@@ -6,19 +6,16 @@ import com.ingredients_service.repository.IngredientRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import java.util.List;
-import org.springframework.http.HttpStatus;
+import org.apache.coyote.BadRequestException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Validated
 public class IngredientService {
 
     private static final String INGREDIENT_NOT_FOUND_ERROR = "Ingredient not found for ingredient name: ";
-    private static final String LOGIN_SUCCESSFUL = "Login successful!";
-    private static final String INVALID_CREDENTIALS = "Invalid credentials!";
     private static final String INGREDIENT_NAME_ALREADY_EXIST = "Ingredient name already exists: ";
 
 
@@ -28,10 +25,11 @@ public class IngredientService {
         this.ingredientRepository = ingredientRepository;
     }
 
-    public IngredientDTO createIngredient(@Valid  IngredientDTO ingredientDTO) {
+    public IngredientDTO createIngredient(@Valid IngredientDTO ingredientDTO)
+        throws BadRequestException {
         ingredientRepository.findByName(ingredientDTO.getName());
         if( ingredientRepository.findByName(ingredientDTO.getName()).isPresent()) {
-            throw new IllegalArgumentException(INGREDIENT_NAME_ALREADY_EXIST + ingredientDTO.getName());
+            throw new BadRequestException(INGREDIENT_NAME_ALREADY_EXIST + ingredientDTO.getName());
         }
 
         IngredientEntity ingredientEntity = ingredientDTO.mapToEntity();
@@ -45,6 +43,7 @@ public class IngredientService {
         IngredientEntity ingredientEntity = findEntityByName(name);
 
         ingredientEntity = ingredientDTO.mapToEntity();
+        ingredientEntity.setId(ingredientDTO.getId());
         IngredientEntity updatedEntity = ingredientRepository.save(ingredientEntity);
         return updatedEntity.mapToDto();
     }
@@ -63,6 +62,13 @@ public class IngredientService {
     public IngredientDTO getIngredientByName(String name) {
         IngredientEntity ingredientEntity = findEntityByName(name);
         return ingredientEntity.mapToDto();
+    }
+
+    public List<IngredientDTO> getIngredientsByIds(List<Long> ids) {
+        return ingredientRepository.findAllById(ids)
+            .stream()
+            .map(IngredientEntity::mapToDto)
+            .toList();
     }
 
     private IngredientEntity findEntityByName(String name) {

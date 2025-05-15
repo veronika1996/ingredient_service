@@ -30,3 +30,10 @@ Feature: Create a new ingredient
     When I send a POST request to "/ingredients"
     Then I should receive a 400 response
     And the response should contain error message "Calorie number needs to be positive value"
+
+   @error
+   Scenario: Create ingredient with missing calorie number
+     Given the ingredient data in JSON file "/requests/create_ingrediest_name_already_exist.json"
+     When I send a POST request to "/ingredients"
+     Then I should receive a 400 response
+     And the response should contain error message "Ingredient name already exists: Tomato"

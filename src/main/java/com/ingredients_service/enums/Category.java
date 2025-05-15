@@ -6,7 +6,6 @@ public enum Category {
     MEAT,
     DAIRY,
     BREAD,
-    CURED_MEAT,
     SPICE,
     SAUCE,
     JUICE,

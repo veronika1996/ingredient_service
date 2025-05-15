@@ -5,6 +5,7 @@ import com.ingredients_service.api.IngredientApi;
 import com.ingredients_service.dto.IngredientDTO;
 import com.ingredients_service.service.IngredientService;
 import java.util.List;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,8 @@ public class IngredientController implements IngredientApi {
   }
 
   @PostMapping
-  public ResponseEntity<IngredientDTO> createIngredient(@RequestBody IngredientDTO ingredientDTO) {
+  public ResponseEntity<IngredientDTO> createIngredient(@RequestBody IngredientDTO ingredientDTO)
+      throws BadRequestException {
     IngredientDTO response = ingredientService.createIngredient(ingredientDTO);
     return ResponseEntity
         .status(HttpStatus.CREATED)
@@ -56,5 +58,12 @@ public class IngredientController implements IngredientApi {
     return ResponseEntity
         .status(HttpStatus.OK)
         .body(response);
+  }
+
+  @PostMapping("/byIds")
+  public ResponseEntity<List<IngredientDTO>> getIngredientsByIds(
+      @RequestBody List<Long> ids) {
+    List<IngredientDTO> ingredients = ingredientService.getIngredientsByIds(ids);
+    return ResponseEntity.ok(ingredients);
   }
 }
