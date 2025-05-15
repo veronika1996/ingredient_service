@@ -13,6 +13,7 @@ public class IngredientEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String name;
     private int calorieNumber;
     private String addedBy;
@@ -69,6 +70,6 @@ public class IngredientEntity {
     }
 
     public IngredientDTO mapToDto() {
-        return new IngredientDTO(this.getName(), this.getCalorieNumber(), this.getAddedBy(), this.getCategory());
+        return new IngredientDTO(this.id, this.getName(), this.getCalorieNumber(), this.getAddedBy(), this.getCategory());
     }
 }

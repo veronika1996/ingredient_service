@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -36,5 +37,11 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ErrorDto> handleResponseStatusException(ResponseStatusException ex) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(new ErrorDto(ex.getMessage(), HttpStatus.NOT_FOUND));
+  }
+
+  @ExceptionHandler(BadRequestException.class)
+  public ResponseEntity<ErrorDto> handleBadRequestException(BadRequestException ex) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(new ErrorDto(ex.getMessage(), HttpStatus.BAD_REQUEST));
   }
 }

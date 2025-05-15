@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Positive;
 
 public class IngredientDTO {
 
+    Long id;
+
     @NotEmpty(message = "Name of ingredient cannot be empty")
     private String name;
 
@@ -22,7 +24,8 @@ public class IngredientDTO {
     public IngredientDTO() {
     }
 
-    public IngredientDTO(String name, int calorieNumber, String addedBy, Category category) {
+    public IngredientDTO(Long id, String name, int calorieNumber, String addedBy, Category category) {
+        this.id = id;
         this.name = name;
         this.calorieNumber = calorieNumber;
         this.addedBy = addedBy;
@@ -63,5 +66,13 @@ public class IngredientDTO {
 
     public IngredientEntity mapToEntity() {
         return new IngredientEntity(this.getName(), this.getCalorieNumber(), this.getAddedBy(), this.getCategory());
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
