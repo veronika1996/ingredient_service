@@ -3,7 +3,6 @@ package com.ingredients_service.service;
 import com.ingredients_service.dto.IngredientDTO;
 import com.ingredients_service.entity.IngredientEntity;
 import com.ingredients_service.repository.IngredientRepository;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.apache.coyote.BadRequestException;
@@ -15,8 +14,8 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class IngredientService {
 
-    private static final String INGREDIENT_NOT_FOUND_ERROR = "Ingredient not found for ingredient name: ";
-    private static final String INGREDIENT_NAME_ALREADY_EXIST = "Ingredient name already exists: ";
+    private static final String INGREDIENT_NOT_FOUND_ERROR = "Nije pronadjen sastojak sa imenom: ";
+    private static final String INGREDIENT_NAME_ALREADY_EXIST = "Vec postoji sastojak sa imenom: ";
 
 
     private final IngredientRepository ingredientRepository;
@@ -27,8 +26,8 @@ public class IngredientService {
 
     public IngredientDTO createIngredient(@Valid IngredientDTO ingredientDTO)
         throws BadRequestException {
-        ingredientRepository.findByName(ingredientDTO.getName());
-        if( ingredientRepository.findByName(ingredientDTO.getName()).isPresent()) {
+      if (ingredientRepository.findByNameAndAddedBy(ingredientDTO.getName(),
+          ingredientDTO.getAddedBy()).isPresent()) {
             throw new BadRequestException(INGREDIENT_NAME_ALREADY_EXIST + ingredientDTO.getName());
         }
 
@@ -37,30 +36,16 @@ public class IngredientService {
         return savedEntity.mapToDto();
     }
 
-    @Transactional
-    public IngredientDTO updateIngredient(String name, @Valid IngredientDTO ingredientDTO) {
-        //checking if the entity exists in the database
-        IngredientEntity ingredientEntity = findEntityByName(name);
 
-        ingredientEntity = ingredientDTO.mapToEntity();
-        ingredientEntity.setId(ingredientDTO.getId());
-        IngredientEntity updatedEntity = ingredientRepository.save(ingredientEntity);
-        return updatedEntity.mapToDto();
-    }
-
-    public void deleteIngredientByName(String name) {
-        IngredientEntity ingredientEntity = findEntityByName(name);
-
-        ingredientRepository.deleteByName(name);
-    }
-
-    public List<IngredientDTO> getAllIngredients() {
-        List<IngredientEntity> listOfIngredientsEntity = ingredientRepository.findAll();
+  public List<IngredientDTO> getAllIngredientsByUsername(String username) {
+    List<IngredientEntity> listOfIngredientsEntity = ingredientRepository.findAllByAddedBy(
+        username);
         return listOfIngredientsEntity.stream().map(IngredientEntity::mapToDto).toList();
     }
 
-    public IngredientDTO getIngredientByName(String name) {
-        IngredientEntity ingredientEntity = findEntityByName(name);
+  public IngredientDTO getIngredientByNameAndUsername(String name, String username) {
+    IngredientEntity ingredientEntity = ingredientRepository.findByNameAndAddedBy(name, username)
+        .orElseThrow(() -> new UsernameNotFoundException(INGREDIENT_NOT_FOUND_ERROR + name));
         return ingredientEntity.mapToDto();
     }
 
@@ -69,11 +54,6 @@ public class IngredientService {
             .stream()
             .map(IngredientEntity::mapToDto)
             .toList();
-    }
-
-    private IngredientEntity findEntityByName(String name) {
-        return ingredientRepository.findByName(name)
-                .orElseThrow(() -> new UsernameNotFoundException(INGREDIENT_NOT_FOUND_ERROR + name));
     }
 
 }

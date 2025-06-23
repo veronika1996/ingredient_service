@@ -33,40 +33,20 @@ public class IngredientEntity {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getCalorieNumber() {
         return calorieNumber;
     }
 
-    public void setCalorieNumber(int calorieNumber) {
-        this.calorieNumber = calorieNumber;
-    }
-
     public String getAddedBy() {
         return addedBy;
     }
 
-    public void setAddedBy(String addedBy) {
-        this.addedBy = addedBy;
-    }
-
     public Category getCategory() {
         return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     public IngredientDTO mapToDto() {

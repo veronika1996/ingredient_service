@@ -29,32 +29,17 @@ public class IngredientController implements IngredientApi {
         .body(response);
   }
 
-  @PutMapping("/{name}")
-  public ResponseEntity<IngredientDTO> updateIngredient(@PathVariable String name, @RequestBody IngredientDTO ingredientDTO) {
-    IngredientDTO response = ingredientService.updateIngredient(name, ingredientDTO);
+  @GetMapping(params = {"username", "!name"})
+  public ResponseEntity<List<IngredientDTO>> getAllIngredientsByUsername(String username) {
+    List<IngredientDTO> response = ingredientService.getAllIngredientsByUsername(username);
     return ResponseEntity
         .status(HttpStatus.OK)
         .body(response);
   }
 
-
-  @DeleteMapping("/{name}")
-  public ResponseEntity<Void> deleteIngredient(@PathVariable String name) {
-    ingredientService.deleteIngredientByName(name);
-    return ResponseEntity.noContent().build();
-  }
-
-  @GetMapping
-  public ResponseEntity<List<IngredientDTO>> getAllIngredients() {
-    List<IngredientDTO> response = ingredientService.getAllIngredients();
-    return ResponseEntity
-        .status(HttpStatus.OK)
-        .body(response);
-  }
-
-  @GetMapping("/{name}")
-  public ResponseEntity<IngredientDTO> getIngredientByName(@PathVariable String name) {
-    IngredientDTO response = ingredientService.getIngredientByName(name);
+  @GetMapping(params = {"name", "username"})
+  public ResponseEntity<IngredientDTO> getIngredientByNameAndUserName(@RequestParam String name, @RequestParam String username) {
+    IngredientDTO response = ingredientService.getIngredientByNameAndUsername(name, username);
     return ResponseEntity
         .status(HttpStatus.OK)
         .body(response);

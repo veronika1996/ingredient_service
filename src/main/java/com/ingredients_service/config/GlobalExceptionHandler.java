@@ -33,12 +33,6 @@ public class GlobalExceptionHandler {
         .body(new ErrorDto(errorMessages, HttpStatus.BAD_REQUEST));
   }
 
-  @ExceptionHandler(ResponseStatusException.class)
-  public ResponseEntity<ErrorDto> handleResponseStatusException(ResponseStatusException ex) {
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(new ErrorDto(ex.getMessage(), HttpStatus.NOT_FOUND));
-  }
-
   @ExceptionHandler(BadRequestException.class)
   public ResponseEntity<ErrorDto> handleBadRequestException(BadRequestException ex) {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)

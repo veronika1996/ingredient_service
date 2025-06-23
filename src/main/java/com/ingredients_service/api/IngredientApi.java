@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public interface IngredientApi {
 
@@ -30,46 +31,22 @@ public interface IngredientApi {
       throws BadRequestException;
 
   @Operation(
-      summary = "Update an existing ingredient",
-      description = "This endpoint allows you to update an existing ingredient by its name.",
+      summary = "Get all ingredients by username",
+      description = "This endpoint returns a list of all ingredients for a specific user.",
       responses = {
           @ApiResponse(
               responseCode = "200",
-              description = "Ingredient successfully updated",
-              content = @Content(mediaType = "application/json", schema = @Schema(implementation = IngredientDTO.class))
-          ),
-          @ApiResponse(responseCode = "404", description = "Ingredient not found")
-      }
-  )
-  ResponseEntity<IngredientDTO> updateIngredient(@Parameter(description = "Name of the ingredient to be updated") @PathVariable String name,
-      @Parameter(description = "Updated ingredient details") @RequestBody IngredientDTO ingredientDTO);
-
-  @Operation(
-      summary = "Delete an ingredient",
-      description = "This endpoint allows you to delete an ingredient by its name.",
-      responses = {
-          @ApiResponse(responseCode = "204", description = "Ingredient successfully deleted"),
-          @ApiResponse(responseCode = "404", description = "Ingredient not found")
-      }
-  )
-  ResponseEntity<Void> deleteIngredient(@Parameter(description = "Name of the ingredient to be deleted") @PathVariable String name);
-
-  @Operation(
-      summary = "Get all ingredients",
-      description = "This endpoint returns a list of all ingredients.",
-      responses = {
-          @ApiResponse(
-              responseCode = "200",
-              description = "List of all ingredients retrieved successfully",
+              description = "List of all ingredients retrieved for user with given username successfully",
               content = @Content(mediaType = "application/json", schema = @Schema(implementation = IngredientDTO.class))
           )
       }
   )
-  ResponseEntity<List<IngredientDTO>> getAllIngredients();
+  ResponseEntity<List<IngredientDTO>> getAllIngredientsByUsername(
+      @Parameter(description = "Name of the ingredient to be fetched") @RequestParam String username);
 
   @Operation(
-      summary = "Get an ingredient by name",
-      description = "This endpoint allows you to get an ingredient by its name.",
+      summary = "Get an ingredient by name and username",
+      description = "This endpoint allows you to get an ingredient by its name and username.",
       responses = {
           @ApiResponse(
               responseCode = "200",
@@ -79,7 +56,9 @@ public interface IngredientApi {
           @ApiResponse(responseCode = "404", description = "Ingredient not found")
       }
   )
-  ResponseEntity<IngredientDTO> getIngredientByName(@Parameter(description = "Name of the ingredient to be fetched") @PathVariable String name);
+  ResponseEntity<IngredientDTO> getIngredientByNameAndUserName(
+      @Parameter(description = "Name of the ingredient to be fetched") @RequestParam String name,
+      @Parameter(description = "Username of the ingredient to be fetched") @RequestParam String username);
 
   @Operation(
       summary = "Get ingredients by ids",

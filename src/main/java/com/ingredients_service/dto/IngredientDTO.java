@@ -8,13 +8,13 @@ import jakarta.validation.constraints.Positive;
 
 public class IngredientDTO {
 
-    Long id;
+    private Long id;
 
-    @NotEmpty(message = "Name of ingredient cannot be empty")
+    @NotEmpty(message = "Ime sastojka ne moze biti prazno")
     private String name;
 
-    @NotNull(message = "Calorie number cannot be null!")
-    @Positive(message = "Calorie number needs to be positive value")
+    @NotNull(message = "Broj kalorija ne moze biti prazan")
+    @Positive(message = "Broj kalorija mora biti pozitivna vrednost")
     private int calorieNumber;
 
     private String addedBy;
