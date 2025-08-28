@@ -1,0 +1,25 @@
+CREATE USER postgres WITH PASSWORD 'password';
+
+CREATE DATABASE meal_plan;
+CREATE DATABASE meal_plan_test;
+
+GRANT ALL PRIVILEGES ON DATABASE meal_plan TO postgres;
+GRANT ALL PRIVILEGES ON DATABASE meal_plan_test TO postgres;
+
+CREATE DATABASE ingredient_test;
+CREATE DATABASE ingredient;
+
+GRANT ALL PRIVILEGES ON DATABASE ingredient_test TO postgres;
+GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;
+
+CREATE DATABASE recipe;
+CREATE DATABASE recipe_test;
+
+GRANT ALL PRIVILEGES ON DATABASE recipe_test TO postgres;
+GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;
+
+CREATE DATABASE plans;
+CREATE DATABASE plans_test;
+
+GRANT ALL PRIVILEGES ON DATABASE plans_test TO postgres;
+GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;
